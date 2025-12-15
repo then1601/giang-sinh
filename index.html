@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giáng Sinh Vui Vẻ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="assets/nhac.mp3" type="audio/mpeg"> 
+    </audio>
+
+    <div id="snow-container"></div>
+
+    <div class="gift-box-container shake" id="gift-box" onclick="openGift()">
+        <div class="gift-lid"></div>
+        <div class="gift-box"></div>
+        <div class="click-text">Click để mở quà nha!</div>
+    </div>
+
+    <div class="card-container" id="card">
+        <div class="card-content">
+            <h2>Merry Christmas</h2>
+            <p id="message-text"></p> <p class="signature">-- Yêu em --</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
