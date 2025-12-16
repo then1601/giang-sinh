@@ -122,11 +122,13 @@ function createSparkles() {
     }
 }
 
+/* --- HÀM MỞ QUÀ (Đã xóa phần chữ hiển thị) --- */
 function openGift() {
     const giftBox = document.getElementById('gift-box');
     const card = document.getElementById('card');
     const audio = document.getElementById('bg-music');
-    const clickText = document.querySelector('.click-text');
+    
+    // Lưu ý: Mình đã xóa dòng tìm 'click-text' để không bị lỗi nữa
 
     // 1. Thêm hiệu ứng pháo hoa
     createSparkles();
@@ -135,17 +137,12 @@ function openGift() {
     giftBox.classList.remove('shake');
     giftBox.style.animation = 'giftOpen 1s ease forwards';
     
-    // 3. Đổi text và thêm hiệu ứng
-    clickText.textContent = 'Đang mở quà... ✨';
-    clickText.style.animation = 'none';
-    
-    // 4. Hiện tấm thiệp sau 1 giây
+    // 3. Hiện tấm thiệp sau 1 giây
     setTimeout(() => {
         giftBox.style.display = 'none';
         card.style.display = 'block';
         
-        
-        // 6. Chạy hiệu ứng gõ chữ sau 0.5s
+        // 4. Chạy hiệu ứng gõ chữ sau 0.5s
         setTimeout(() => {
             if (!isTyping) {
                 isTyping = true;
