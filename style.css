@@ -164,6 +164,55 @@ body::before {
     transform: translateX(-50%);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+/* === NƠ TRÊN NẮP HỘP (BẢN TO HƠN) === */
+.gift-lid .bow {
+    position: absolute;
+    top: -28px;              /* đẩy nơ lên cao hơn */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 72px;             /* TO HƠN */
+    height: 34px;
+    z-index: 5;
+}
+
+/* Cánh nơ */
+.gift-lid .bow::before,
+.gift-lid .bow::after {
+    content: '';
+    position: absolute;
+    width: 34px;             /* TO HƠN */
+    height: 28px;
+    background: linear-gradient(to bottom, #f5c542, #e0a816);
+    border-radius: 16px;
+    top: 4px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+}
+
+/* Cánh trái */
+.gift-lid .bow::before {
+    left: 0;
+    transform: rotate(-25deg);
+}
+
+/* Cánh phải */
+.gift-lid .bow::after {
+    right: 0;
+    transform: rotate(25deg);
+}
+
+/* Nút giữa */
+.gift-lid .bow span {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    width: 14px;             /* TO HƠN */
+    height: 14px;
+    background: #e0a816;
+    border-radius: 50%;
+    box-shadow: inset 0 2px 3px rgba(255,255,255,0.6),
+                0 2px 4px rgba(0,0,0,0.35);
+}
 
 /* Hiệu ứng rung lắc */
 .shake {
