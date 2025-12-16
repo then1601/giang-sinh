@@ -2,16 +2,37 @@
 body {
     margin: 0;
     padding: 0;
-    background: radial-gradient(circle, #b30000 0%, #4a0000 100%); /* Nền đỏ */
+    background: linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #1a0000 100%);
     height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Pacifico', cursive;
+    position: relative;
 }
 
-/* --- HIỆU ỨNG TUYẾT RƠI --- */
+/* Hiệu ứng ánh sáng lấp lánh nền */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+    z-index: 0;
+    animation: twinkle 8s infinite alternate;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+}
+
+/* --- HIỆU ỨNG TUYẾT RƠI NÂNG CẤP --- */
 #snow-container {
     position: fixed;
     top: 0;
@@ -24,134 +45,335 @@ body {
 
 .snowflake {
     position: absolute;
-    top: -10px;
+    top: -50px; /* Xuất phát từ trên cao ngoài màn hình */
     color: white;
-    font-size: 1em;
-    animation-name: fall;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    
+    /* QUAN TRỌNG: Gọi tên hiệu ứng 'fall' */
+    animation-name: fall; 
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    z-index: 999; /* Đảm bảo tuyết nổi lên trên nền */
 }
 
 @keyframes fall {
-    to { transform: translateY(100vh); }
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        /* Rơi xuống quá chiều cao màn hình (100vh) */
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
-/* --- HỘP QUÀ --- */
+/* --- HỘP QUÀ NÂNG CẤP --- */
 .gift-box-container {
     position: relative;
-    z-index: 10;
     cursor: pointer;
-    transition: transform 0.5s ease;
+    transition: transform 0.3s ease;
 }
 
+.gift-box-container:hover {
+    transform: translateY(-10px);
+}
+
+/* Hộp quà */
 .gift-box {
-    width: 150px;
-    height: 150px;
-    background-color: #ffcccc;
+    width: 160px;
+    height: 160px;
+    /* Dùng gradient đỏ đậm chuyển xuống đỏ tối */
+    background: linear-gradient(to bottom, #d62929 0%, #a30b1d 100%);
+    border-radius: 0 0 10px 10px; /* Bo tròn đáy, vuông ở trên để khớp nắp */
     position: relative;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* Thêm shadow inset (bên trong) ở trên cùng để tạo cảm giác nắp che bóng xuống */
+    box-shadow: inset 0 15px 20px rgba(0,0,0,0.3), 0 20px 40px rgba(0,0,0,0.4);
+    overflow: hidden;
+    z-index: 1;
 }
 
-/* Dây ruy băng */
+/* Hiệu ứng ánh sáng trên hộp */
 .gift-box::before {
     content: '';
     position: absolute;
-    width: 25px;
-    height: 100%;
-    background-color: #ffd700;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.9), 
+        transparent);
+    z-index: 2;
+    border-radius: 12px 12px 0 0;
 }
 
+/* Dây ruy băng dọc */
 .gift-box::after {
     content: '';
     position: absolute;
-    height: 25px;
-    width: 100%;
-    background-color: #ffd700;
-}
-
-/* Nắp hộp */
-.gift-lid {
-    width: 170px;
-    height: 40px;
-    background-color: #ff9999;
-    position: absolute;
-    top: -40px;
-    left: -10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 2;
-}
-
-.gift-lid::before {
-    content: '';
-    position: absolute;
-    width: 25px;
+    width: 18px;
     height: 100%;
-    background-color: #ffd700;
+    background: #f5c542;
     left: 50%;
     transform: translateX(-50%);
 }
 
-/* Hiệu ứng rung lắc */
-.shake {
-    animation: shake 2s infinite;
+
+/* Dây ruy băng ngang thêm bằng pseudo-element */
+.gift-box .ribbon-horizontal {
+    position: absolute;
+    height: 18px;
+    width: 100%;
+    background: #f5c542;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-@keyframes shake {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(5deg); }
-    50% { transform: rotate(0eg); }
-    75% { transform: rotate(-5deg); }
-    100% { transform: rotate(0deg); }
+/* Nắp hộp */
+.gift-lid {
+    width: 180px;
+    height: 45px;
+    /* Gradient sáng hơn thân một chút (ánh sáng chiếu từ trên) */
+    background: linear-gradient(to bottom, #ff5e62 0%, #d62929 100%);
+    position: absolute;
+    top: -40px;
+    left: -10px;
+    border-radius: 10px 10px 5px 5px;
+    /* Thêm viền dưới đậm màu để nắp trông dày dặn, cứng cáp */
+    border-bottom: 6px solid #8f1015; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nẩy nhẹ */
+    transform-origin: bottom;
+    z-index: 2;
+}
+
+.gift-box-container:hover .gift-lid {
+    transform: rotateX(-25deg);
+}
+
+/* Dây ruy băng trên nắp */
+.gift-lid::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(to bottom, #f5c542, #e0a816); /* Ruy băng cũng có độ bóng */
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Hiệu ứng rung lắc */
+.shake {
+    animation: gentleShake 2.5s infinite ease-in-out;
+}
+
+@keyframes gentleShake {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg); 
+    }
+    25% { 
+        transform: translateY(-8px) rotate(-1.5deg); 
+    }
+    50% { 
+        transform: translateY(-5px) rotate(1.5deg); 
+    }
+    75% { 
+        transform: translateY(-8px) rotate(-0.5deg); 
+    }
 }
 
 .click-text {
     position: absolute;
-    bottom: -40px;
+    bottom: -50px;
     width: 100%;
     text-align: center;
-    color: white;
-    font-size: 1.2rem;
-    text-shadow: 1px 1px 2px black;
+    color: #ffd700;
+    font-size: 1.4rem;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 215, 0, 0.7);
+    animation: textGlow 2s infinite alternate;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, 
+        rgba(255, 0, 0, 0.2), 
+        rgba(255, 215, 0, 0.2), 
+        rgba(255, 0, 0, 0.2));
+    border-radius: 25px;
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 215, 0, 0.3);
 }
 
-/* --- TẤM THIỆP (CARD) --- */
+@keyframes textGlow {
+    0% { 
+        color: #ffd700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    100% { 
+        color: #fff;
+        text-shadow: 
+            0 0 10px #fff,
+            0 0 20px #ffd700,
+            0 0 30px #ffd700;
+    }
+}
+
+/* Trang trí sao trên hộp quà */
+.star-decoration {
+    position: absolute;
+    color: #ffd700;
+    font-size: 18px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+    z-index: 2;
+    animation: starTwinkle 1.5s infinite alternate;
+}
+
+@keyframes starTwinkle {
+    0% { opacity: 0.5; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1.1); }
+}
+
+/* --- TẤM THIỆP (CARD) NÂNG CẤP --- */
 .card-container {
     display: none;
     position: relative;
     z-index: 20;
     width: 90%;
-    max-width: 400px;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    max-width: 450px;
+    background: linear-gradient(135deg, #fff9f9 0%, #ffe6e6 100%);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 
+        0 0 40px rgba(255, 0, 0, 0.5),
+        inset 0 0 20px rgba(255, 255, 255, 0.8);
     text-align: center;
-    animation: zoomIn 1s ease forwards;
+    animation: cardReveal 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    border: 3px solid #ffd700;
+    overflow: hidden;
 }
 
-@keyframes zoomIn {
-    from { transform: scale(0); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+.card-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes cardReveal {
+    0% { 
+        transform: scale(0) rotate(-180deg); 
+        opacity: 0; 
+    }
+    70% { 
+        transform: scale(1.1) rotate(10deg); 
+        opacity: 0.8; 
+    }
+    100% { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 1; 
+    }
 }
 
 .card-content h2 {
     color: #d42426;
     margin-top: 0;
+    font-size: 2.8rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.card-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 10%;
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
 }
 
 .card-content p {
     color: #333;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    min-height: 100px;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    min-height: 150px;
+    font-family: 'Arial', sans-serif;
+    position: relative;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.typing-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1.3rem;
+    background-color: #d42426;
+    margin-left: 2px;
+    animation: blink 0.7s infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .signature {
-    text-align: right; 
-    font-size: 0.9rem; 
+    text-align: right;
+    font-size: 1.1rem;
     color: #d42426;
-    margin-top: 10px;
+    margin-top: 30px;
+    font-family: 'Pacifico', cursive;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    animation: signatureAppear 2s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes signatureAppear {
+    0% { 
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hiệu ứng ánh sáng khi mở thiệp */
+.sparkle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #ffd700 0%, transparent 70%);
+    border-radius: 50%;
+    animation: sparkleFly 1.5s ease-out forwards;
+    z-index: 21;
+}
+
+@keyframes sparkleFly {
+    0% { 
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% { 
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0);
+    }
 }

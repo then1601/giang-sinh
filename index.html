@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giáng Sinh Vui Vẻ</title>
+    <title>Giáng Sinh Vui Vẻ 🎄</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop autoplay>
         <source src="assets/nhac.mp3" type="audio/mpeg"> 
+        <source src="assets/nhac.ogg" type="audio/ogg">
+        Trình duyệt của bạn không hỗ trợ audio.
     </audio>
 
     <div id="snow-container"></div>
@@ -18,13 +21,13 @@
     <div class="gift-box-container shake" id="gift-box" onclick="openGift()">
         <div class="gift-lid"></div>
         <div class="gift-box"></div>
-        <div class="click-text">Click để mở quà nha!</div>
     </div>
 
     <div class="card-container" id="card">
         <div class="card-content">
-            <h2>Merry Christmas</h2>
-            <p id="message-text"></p> <p class="signature">-- Yêu em --</p>
+            <h2>🎄 Merry Christmas 🎄</h2>
+            <p id="message-text"></p>
+            <p class="signature">-- Yêu em mãi mãi --</p>
         </div>
     </div>
 
