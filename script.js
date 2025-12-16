@@ -6,7 +6,7 @@ function createSnow() {
     // --- KHU VỰC CHỈNH SỬA (Bạn thay đổi thông số ở đây) ---
     
     // 1. Hình dáng bông tuyết (Bạn có thể thêm hình trái tim '❤' nếu thích)
-    const snowTypes = ['❄', '❅', '❆', '★', '•', '✨']; 
+    const snowTypes = ['❄', '❅', '❆', '★', '•', '✨', '❤']; 
     
     // 2. Kích thước (pixel)
     const minSize = 10;
@@ -63,28 +63,58 @@ setInterval(createSnow, 150);
 
 /* --- XỬ LÝ CLICK VÀ GÕ CHỮ NÂNG CẤP --- */
 
-// Nội dung thư
-const fullMessage = "Gửi em! Giáng Sinh này lạnh lắm, nhưng trái tim anh luôn ấm áp vì có em bên cạnh. Chúc tình yêu của anh một mùa Noel hạnh phúc và ngập tràn yêu thương. Yêu em thật nhiều!";
+// Nội dung thư chia làm 2 phần
+const part1Message = "Gửi em! Giáng Sinh này lạnh lắm, nhưng trái tim anh luôn ấm áp vì có em bên cạnh.";
+const part2Message = "Chúc tình yêu của anh một mùa Noel hạnh phúc và ngập tràn yêu thương. Yêu em thật nhiều!";
 const speed = 40; // Tốc độ gõ chữ (ms)
-let i = 0;
-let isTyping = false;
 
-function typeWriter() {
-    if (i < fullMessage.length) {
-        const messageText = document.getElementById("message-text");
-        messageText.innerHTML = fullMessage.substring(0, i + 1) + '<span class="typing-cursor"></span>';
-        i++;
+let part1Index = 0;
+let part2Index = 0;
+let isTypingPart1 = false;
+let isTypingPart2 = false;
+
+function typeWriterPart1() {
+    if (part1Index < part1Message.length) {
+        const messageText = document.getElementById("message-part1");
+        messageText.innerHTML = part1Message.substring(0, part1Index + 1) + '<span class="typing-cursor"></span>';
+        part1Index++;
         
         // Hiệu ứng âm thanh gõ chữ
         playTypingSound();
         
-        setTimeout(typeWriter, speed);
+        setTimeout(typeWriterPart1, speed);
     } else {
-        isTyping = false;
-        // Hiển thị chữ ký sau khi gõ xong
+        isTypingPart1 = false;
+        
+        // Hiện trái tim sau khi gõ xong phần 1
         setTimeout(() => {
-            const signature = document.querySelector('.signature');
-            signature.style.opacity = '1';
+            document.getElementById('heart-container').style.display = 'flex';
+            
+            // Bắt đầu gõ phần 2 sau khi hiện trái tim
+            setTimeout(() => {
+                isTypingPart2 = true;
+                typeWriterPart2();
+            }, 1000);
+        }, 500);
+    }
+}
+
+function typeWriterPart2() {
+    if (part2Index < part2Message.length) {
+        const messageText = document.getElementById("message-part2");
+        messageText.innerHTML = part2Message.substring(0, part2Index + 1) + '<span class="typing-cursor"></span>';
+        part2Index++;
+        
+        // Hiệu ứng âm thanh gõ chữ
+        playTypingSound();
+        
+        setTimeout(typeWriterPart2, speed);
+    } else {
+        isTypingPart2 = false;
+        
+        // Hiện chữ ký sau khi gõ xong phần 2
+        setTimeout(() => {
+            document.getElementById('signature-text').style.opacity = '1';
         }, 500);
     }
 }
@@ -122,14 +152,12 @@ function createSparkles() {
     }
 }
 
-/* --- HÀM MỞ QUÀ (Đã xóa phần chữ hiển thị) --- */
+/* --- HÀM MỞ QUÀ --- */
 function openGift() {
     const giftBox = document.getElementById('gift-box');
     const card = document.getElementById('card');
     const audio = document.getElementById('bg-music');
     
-    // Lưu ý: Mình đã xóa dòng tìm 'click-text' để không bị lỗi nữa
-
     // 1. Thêm hiệu ứng pháo hoa
     createSparkles();
     
@@ -142,11 +170,11 @@ function openGift() {
         giftBox.style.display = 'none';
         card.style.display = 'block';
         
-        // 4. Chạy hiệu ứng gõ chữ sau 0.5s
+        // 4. Chạy hiệu ứng gõ chữ phần 1 sau 0.5s
         setTimeout(() => {
-            if (!isTyping) {
-                isTyping = true;
-                typeWriter();
+            if (!isTypingPart1) {
+                isTypingPart1 = true;
+                typeWriterPart1();
             }
         }, 500);
         
@@ -194,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
         giftBox.appendChild(star);
     }
 });
+
 /* --- TỰ ĐỘNG PHÁT NHẠC THÔNG MINH --- */
 document.addEventListener('DOMContentLoaded', function() {
     const audio = document.getElementById('bg-music');
@@ -206,24 +235,210 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (promise !== undefined) {
             promise.then(_ => {
-                // Autoplay thành công (thường là trên Firefox hoặc nếu người dùng đã từng vào web)
+                // Autoplay thành công
                 console.log("Nhạc đã tự động phát.");
             }).catch(error => {
-                // Autoplay bị chặn (Chrome/Edge/Safari) -> Chờ cú click đầu tiên
+                // Autoplay bị chặn -> Chờ cú click đầu tiên
                 console.log("Trình duyệt chặn autoplay. Đang chờ tương tác...");
                 
-                // Tạo một sự kiện click toàn màn hình để kích hoạt nhạc
                 function playOnInteraction() {
                     audio.play();
-                    // Sau khi phát được rồi thì gỡ sự kiện này đi để không bị lặp
                     document.removeEventListener('click', playOnInteraction);
                     document.removeEventListener('touchstart', playOnInteraction);
                 }
 
-                // Lắng nghe click chuột hoặc chạm tay vào bất kỳ đâu
                 document.addEventListener('click', playOnInteraction);
                 document.addEventListener('touchstart', playOnInteraction);
             });
         }
     }
 });
+
+/* --- THÊM HIỆU ỨNG KHI CLICK VÀO TRÁI TIM --- */
+document.addEventListener('DOMContentLoaded', function() {
+    const heartContainer = document.getElementById('heart-container');
+    
+    heartContainer.addEventListener('click', function() {
+        // Tạo hiệu ứng tim đập mạnh
+        this.style.animation = 'none';
+        setTimeout(() => {
+            this.style.animation = 'heartBeat 2s infinite ease-in-out';
+        }, 10);
+        
+        // Tạo thêm các tia sáng
+        for (let i = 0; i < 8; i++) {
+            const ray = document.createElement('div');
+            ray.style.position = 'absolute';
+            ray.style.width = '4px';
+            ray.style.height = '40px';
+            ray.style.background = 'linear-gradient(to top, rgba(255, 71, 87, 0.8), transparent)';
+            ray.style.borderRadius = '2px';
+            ray.style.top = '50%';
+            ray.style.left = '50%';
+            ray.style.transformOrigin = 'bottom center';
+            ray.style.transform = `translate(-50%, -50%) rotate(${i * 45}deg)`;
+            ray.style.animation = `rayExpand 0.5s ease-out forwards`;
+            
+            heartContainer.appendChild(ray);
+            
+            setTimeout(() => {
+                ray.remove();
+            }, 500);
+        }
+    });
+});
+
+// Thêm CSS cho hiệu ứng tia sáng
+const rayStyle = document.createElement('style');
+rayStyle.innerHTML = `
+    @keyframes rayExpand {
+        0% { height: 0px; opacity: 1; }
+        100% { height: 40px; opacity: 0; }
+    }
+`;
+document.head.appendChild(rayStyle);
+// Thêm vào cuối file script.js
+
+/* --- HIỆU ỨNG KHI CLICK VÀO TRÁI TIM --- */
+function heartClick(element) {
+    // Hiệu ứng đập mạnh
+    element.classList.add('heart-clicked');
+    
+    // Tạo các tia sáng
+    createHeartRays(element);
+    
+    // Tạo hiệu ứng âm thanh (nếu có)
+    playHeartSound();
+    
+    // Xóa class sau khi animation kết thúc
+    setTimeout(() => {
+        element.classList.remove('heart-clicked');
+    }, 600);
+}
+
+function createHeartRays(heartElement) {
+    // Tạo 8 tia sáng xung quanh
+    for (let i = 0; i < 8; i++) {
+        const ray = document.createElement('div');
+        ray.classList.add('heart-ray');
+        
+        // Tính toán vị trí các tia
+        const angle = (i * 45) * Math.PI / 180;
+        ray.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+        
+        // Thêm vào container của trái tim
+        heartElement.parentElement.appendChild(ray);
+        
+        // Xóa sau khi animation kết thúc
+        setTimeout(() => {
+            if (ray.parentNode) {
+                ray.remove();
+            }
+        }, 800);
+    }
+}
+
+function playHeartSound() {
+    try {
+        // Tạo âm thanh heartbeat đơn giản
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(120, audioContext.currentTime + 0.1);
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+        
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.3);
+    } catch (e) {
+        console.log("Không thể phát âm thanh");
+    }
+}
+
+/* --- CẬP NHẬT HÀM GÕ CHỮ ĐỂ HIỆN TRÁI TIM --- */
+// Sửa hàm typeWriterPart1 trong script.js
+function typeWriterPart1() {
+    if (part1Index < part1Message.length) {
+        const messageText = document.getElementById("message-part1");
+        messageText.innerHTML = part1Message.substring(0, part1Index + 1) + '<span class="typing-cursor"></span>';
+        part1Index++;
+        
+        playTypingSound();
+        
+        setTimeout(typeWriterPart1, speed);
+    } else {
+        isTypingPart1 = false;
+        
+        // Hiện trái tim sau khi gõ xong phần 1
+        setTimeout(() => {
+            const heartContainer = document.getElementById('heart-container');
+            heartContainer.style.display = 'flex';
+            
+            // Hiệu ứng trái tim xuất hiện
+            heartContainer.style.opacity = '0';
+            heartContainer.style.transform = 'scale(0.5)';
+            
+            setTimeout(() => {
+                heartContainer.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                heartContainer.style.opacity = '1';
+                heartContainer.style.transform = 'scale(1)';
+            }, 100);
+            
+            // Bắt đầu gõ phần 2 sau 1.5 giây
+            setTimeout(() => {
+                isTypingPart2 = true;
+                typeWriterPart2();
+            }, 1500);
+        }, 500);
+    }
+}
+
+// Thêm hiệu ứng khi trang tải xong
+document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra và tạo hiệu ứng cho các ngôi sao xung quanh trái tim
+    const stars = document.querySelectorAll('.heart-star');
+    stars.forEach((star, index) => {
+        star.style.animationDelay = `${index * 0.2}s`;
+    });
+});
+/* --- HÀM XỬ LÝ CĂN CHỈNH ẢNH TRONG TRÁI TIM --- */
+function processHeartImage() {
+    const img = document.getElementById('user-image');
+    if (!img) return;
+
+    // --- KHU VỰC CHỈNH THÔNG SỐ (Bạn chỉnh ở đây) ---
+    
+    // 1. Zoom: > 1 là phóng to, < 1 là thu nhỏ (Ví dụ: 0.8, 1.0, 1.2)
+    const zoomLevel = 0.1; 
+    
+    // 2. Dịch chuyển ngang (X): Số dương dịch sang phải, số âm dịch sang trái
+    // Với ảnh sách của bạn, ta cần dịch sang phải một chút để lấy phần sách
+    const moveX = '20%'; 
+    
+    // 3. Dịch chuyển dọc (Y): Số dương dịch xuống, số âm dịch lên
+    const moveY = 'center'; 
+    
+    // --------------------------------------------------
+
+    // Áp dụng xử lý
+    img.style.width = "100%";
+    img.style.height = "100%";
+    
+    // Chế độ cover để ảnh luôn full khung không bị viền đen
+    img.style.objectFit = "cover"; 
+    
+    // Căn chỉnh vị trí điểm nhìn
+    img.style.objectPosition = `${moveX} ${moveY}`;
+    
+    // Áp dụng zoom nếu cần
+    img.style.transform = `scale(${zoomLevel})`;
+    
+    // Đảm bảo ảnh mượt mà khi đổi
+    img.style.transition = "all 0.5s ease";
+}

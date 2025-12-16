@@ -27,9 +27,43 @@
 
     <div class="card-container" id="card">
         <div class="card-content">
-            <h2>🎄 Merry Christmas 🎄</h2>
-            <p id="message-text"></p>
-            <p class="signature">-- Yêu em mãi mãi --</p>
+            <h2 class="card-title">
+                🎄Merry Christmas🎄
+            </h2>
+            
+            <!-- Phần 1 của nội dung -->
+            <p id="message-part1"></p>
+            
+            <!-- TRÁI TIM CHỨA ẢNH - ĐÃ SỬA -->
+            <div class="heart-container" id="heart-container" style="display: none;">
+    <div class="heart-glow"></div>
+    
+    <!-- Các ngôi sao xung quanh -->
+    <div class="heart-star">★</div>
+    <div class="heart-star">★</div>
+    <div class="heart-star">★</div>
+    <div class="heart-star">★</div>
+    <div class="heart-star">★</div>
+    <div class="heart-star">★</div>
+    <div class="heart-star">★</div>
+    <div class="heart-star">★</div>
+    
+    <!-- Trái tim -->
+    <div class="heart" onclick="heartClick(this)">
+        <div class="heart-img-container">
+    <img id="user-image" 
+         src="assets/z7332134477043_330b1b61f36c3e1989ce8d30d76f271b.jpg" 
+         alt="Kỷ niệm"
+         onload="processHeartImage()"> </div>
+        </div>
+    </div>
+</div>
+            
+            <!-- Phần 2 của nội dung -->
+            <p id="message-part2"></p>
+            
+            <!-- Phần chữ ký -->
+            <p class="signature" id="signature-text">-- Yêu em mãi mãi --</p>
         </div>
     </div>
 
