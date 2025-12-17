@@ -415,14 +415,14 @@ function processHeartImage() {
     // --- KHU VỰC CHỈNH THÔNG SỐ (Bạn chỉnh ở đây) ---
     
     // 1. Zoom: > 1 là phóng to, < 1 là thu nhỏ (Ví dụ: 0.8, 1.0, 1.2)
-    const zoomLevel = 0.1; 
+    const zoomLevel = 1.2; 
     
     // 2. Dịch chuyển ngang (X): Số dương dịch sang phải, số âm dịch sang trái
     // Với ảnh sách của bạn, ta cần dịch sang phải một chút để lấy phần sách
-    const moveX = '20%'; 
+    const moveX = 'center'; 
     
     // 3. Dịch chuyển dọc (Y): Số dương dịch xuống, số âm dịch lên
-    const moveY = 'center'; 
+    const moveY = 'top'; 
     
     // --------------------------------------------------
 
@@ -441,4 +441,6 @@ function processHeartImage() {
     
     // Đảm bảo ảnh mượt mà khi đổi
     img.style.transition = "all 0.5s ease";
+
+    img.style.transformOrigin = `${moveX} ${moveY}`;
 }

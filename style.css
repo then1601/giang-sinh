@@ -432,15 +432,20 @@ body::before {
     justify-content: center;
     align-items: center;
     overflow: hidden; 
+    position: relative;
 }
 
 .heart-image img {
     width: 100%;
     height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh cover toàn bộ khung */
+    object-position: center top; /* Căn ảnh lên trên để hiển thị phần mặt */
+    transform-origin: center top; /* Điểm gốc để zoom */
+    transition: transform 0.5s ease;
 }
 
 .heart:hover .heart-image img {
-    transform: scale(1.5); /* Phóng to ảnh nhẹ khi hover */
+    transform: scale(1.3); /* Phóng to ảnh nhẹ khi hover */
 }
 
 /* --- CÁC HIỆU ỨNG TRANG TRÍ GIỮ NGUYÊN --- */
@@ -467,5 +472,16 @@ body::before {
     font-size: 20px;
     animation: starFloat 3s infinite ease-in-out;
     z-index: 5;
+    pointer-events: none;
+}
+.heart-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(to top, rgba(255, 71, 87, 0.3), transparent);
+    z-index: 2;
     pointer-events: none;
 }
