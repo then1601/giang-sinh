@@ -444,3 +444,96 @@ function processHeartImage() {
 
     img.style.transformOrigin = `${moveX} ${moveY}`;
 }
+
+/* --- ĐIỀU CHỈNH MẬT ĐỘ TUYẾT THEO THIẾT BỊ --- */
+function adjustSnowForDevice() {
+    // Xóa interval cũ nếu có
+    if (window.snowInterval) {
+        clearInterval(window.snowInterval);
+    }
+    
+    const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
+    
+    // Điều chỉnh mật độ tuyết theo thiết bị
+    let snowIntervalTime;
+    
+    if (isMobile) {
+        snowIntervalTime = 200; // Ít tuyết hơn trên mobile để tăng performance
+    } else if (isTablet) {
+        snowIntervalTime = 120;
+    } else {
+        snowIntervalTime = 80; // Nhiều tuyết trên desktop
+    }
+    
+    // Đặt interval mới
+    window.snowInterval = setInterval(createSnow, snowIntervalTime);
+}
+
+// Gọi hàm khi trang tải và khi thay đổi kích thước cửa sổ
+document.addEventListener('DOMContentLoaded', function() {
+    adjustSnowForDevice();
+    
+    // Điều chỉnh khi thay đổi kích thước cửa sổ
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(adjustSnowForDevice, 250);
+    });
+});
+
+// Cập nhật hàm processHeartImage cho responsive
+function processHeartImage() {
+    const img = document.getElementById('user-image');
+    if (!img) return;
+
+    // Lấy kích thước màn hình để điều chỉnh thông số
+    const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
+    
+    // Điều chỉnh thông số theo thiết bị
+    let zoomLevel, moveX, moveY;
+    
+    if (isMobile) {
+        zoomLevel = 1.0;
+        moveX = 'center';
+        moveY = 'top';
+    } else if (isTablet) {
+        zoomLevel = 1.1;
+        moveX = 'center';
+        moveY = 'top';
+    } else {
+        zoomLevel = 1.2;
+        moveX = 'center';
+        moveY = 'top';
+    }
+    
+    // Áp dụng xử lý
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover"; 
+    img.style.objectPosition = `${moveX} ${moveY}`;
+    img.style.transform = `scale(${zoomLevel})`;
+    img.style.transformOrigin = `${moveX} ${moveY}`;
+    img.style.transition = "all 0.5s ease";
+}
+
+// Thêm vào cuối file script.js
+function checkDeviceType() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const orientation = width > height ? 'landscape' : 'portrait';
+    
+    console.log(`Thiết bị: ${width}x${height} - Hướng: ${orientation}`);
+    
+    // Điều chỉnh thêm nếu cần
+    if (width < 480 && orientation === 'landscape') {
+        // Điều chỉnh cho điện thoại xoay ngang
+        document.body.style.padding = '5px';
+    }
+}
+
+// Kiểm tra khi thay đổi kích thước
+window.addEventListener('resize', checkDeviceType);
+// Kiểm tra khi tải trang
+document.addEventListener('DOMContentLoaded', checkDeviceType);

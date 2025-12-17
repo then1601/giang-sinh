@@ -1,3 +1,252 @@
+/* --- RESET VÀ CẤU HÌNH CHUNG --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Biến responsive */
+    --mobile-breakpoint: 768px;
+    --tablet-breakpoint: 1024px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #1a0000 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Pacifico', cursive;
+    position: relative;
+    padding: 20px;
+}
+
+/* --- MEDIA QUERIES CHO RESPONSIVE --- */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .card-container {
+        max-width: 90%;
+        padding: 30px;
+        margin: 0 auto;
+    }
+    
+    .card-title {
+        font-size: 2.5rem;
+    }
+    
+    .card-content p {
+        font-size: 1.2rem;
+        line-height: 1.7;
+    }
+    
+    .heart-container {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .heart {
+        width: 120px;
+        height: 120px;
+        transform: scale(1.3);
+    }
+    
+    .heart-image {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .gift-box-container {
+        transform: scale(0.9);
+    }
+}
+
+/* Mobile (dưới 768px) */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+        min-height: 100vh;
+        height: auto;
+    }
+    
+    .card-container {
+        max-width: 95%;
+        padding: 25px 20px;
+        margin: 20px auto;
+    }
+    
+    .card-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .card-content p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    
+    .heart-container {
+        width: 160px;
+        height: 160px;
+        margin: 20px auto;
+    }
+    
+    .heart {
+        width: 100px;
+        height: 100px;
+        transform: scale(1.2);
+        margin: 30px auto;
+    }
+    
+    .heart-image {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .gift-box-container {
+        transform: scale(0.8);
+    }
+    
+    .gift-box {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .gift-lid {
+        width: 160px;
+        height: 40px;
+        top: -35px;
+        left: -10px;
+    }
+    
+    .click-text {
+        font-size: 1.1rem;
+        bottom: -45px;
+        padding: 8px 15px;
+    }
+    
+    .signature {
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+}
+
+/* Mobile nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .card-container {
+        padding: 20px 15px;
+    }
+    
+    .card-title {
+        font-size: 1.8rem;
+    }
+    
+    .card-content p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .heart-container {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .heart {
+        width: 90px;
+        height: 90px;
+        transform: scale(1.1);
+        margin: 25px auto;
+    }
+    
+    .heart-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .gift-box-container {
+        transform: scale(0.7);
+    }
+    
+    .click-text {
+        font-size: 1rem;
+        bottom: -40px;
+        padding: 6px 12px;
+    }
+    
+    .signature {
+        font-size: 1rem;
+    }
+}
+
+/* Điện thoại xoay ngang */
+@media (max-height: 600px) and (orientation: landscape) {
+    body {
+        padding: 10px;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .card-container {
+        max-width: 90%;
+        padding: 20px;
+        margin: 10px auto;
+    }
+    
+    .heart-container {
+        width: 120px;
+        height: 120px;
+        margin: 15px auto;
+    }
+    
+    .heart {
+        width: 80px;
+        height: 80px;
+        transform: scale(1);
+        margin: 20px auto;
+    }
+    
+    .heart-image {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .gift-box-container {
+        transform: scale(0.6);
+    }
+}
+
+/* Desktop lớn (trên 1200px) */
+@media (min-width: 1200px) {
+    .card-container {
+        max-width: 600px;
+    }
+    
+    .heart-container {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .heart {
+        width: 160px;
+        height: 160px;
+        transform: scale(1.6);
+    }
+    
+    .heart-image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
 /* --- CẤU HÌNH CHUNG --- */
 body {
     margin: 0;
@@ -484,4 +733,55 @@ body::before {
     background: linear-gradient(to top, rgba(255, 71, 87, 0.3), transparent);
     z-index: 2;
     pointer-events: none;
+}
+
+/* Tối ưu hiệu ứng cho mobile */
+@media (max-width: 768px) {
+    /* Giảm hiệu ứng phức tạp trên mobile */
+    .snowflake {
+        font-size: 14px !important;
+        animation-duration: 8s !important;
+    }
+    
+    /* Tối ưu hiệu ứng card */
+    .card-container::before {
+        display: none; /* Tắt hiệu ứng xoay nền để tăng performance */
+    }
+    
+    /* Giảm shadow để tăng performance */
+    .card-container {
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    }
+    
+    /* Tối ưu animation */
+    * {
+        animation-duration: 0.5s !important;
+    }
+}
+
+/* Ngăn chặn zoom trên mobile khi chạm */
+@media (max-width: 768px) {
+    input, textarea, select {
+        font-size: 16px; /* Ngăn zoom tự động trên iOS */
+    }
+    
+    body {
+        touch-action: manipulation; /* Cải thiện phản hồi cảm ứng */
+    }
+}
+
+/* Đảm bảo nội dung không tràn trên mobile rất nhỏ */
+@media (max-width: 360px) {
+    .card-title {
+        font-size: 1.6rem;
+    }
+    
+    .card-content p {
+        font-size: 0.9rem;
+    }
+    
+    .heart-container {
+        width: 120px;
+        height: 120px;
+    }
 }

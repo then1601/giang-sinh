@@ -2,8 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giáng Sinh Vui Vẻ 🎄</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    <title>Giáng Sinh Vui Vẻ 🎄</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,46 +25,46 @@
     </div>
 
     <div class="card-container" id="card">
-        <div class="card-content">
-            <h2 class="card-title">
-                🎄Merry Christmas🎄
-            </h2>
+    <div class="card-content">
+        <h2 class="card-title responsive-title">
+            🎄Merry Christmas🎄
+        </h2>
+        
+        <!-- Phần 1 của nội dung -->
+        <p id="message-part1" class="responsive-text"></p>
+        
+        <!-- TRÁI TIM CHỨA ẢNH -->
+        <div class="heart-container responsive-heart" id="heart-container" style="display: none;">
+            <div class="heart-glow"></div>
             
-            <!-- Phần 1 của nội dung -->
-            <p id="message-part1"></p>
+            <!-- Các ngôi sao xung quanh -->
+            <div class="heart-star">★</div>
+            <div class="heart-star">★</div>
+            <div class="heart-star">★</div>
+            <div class="heart-star">★</div>
+            <div class="heart-star">★</div>
+            <div class="heart-star">★</div>
+            <div class="heart-star">★</div>
+            <div class="heart-star">★</div>
             
-            <!-- TRÁI TIM CHỨA ẢNH - ĐÃ SỬA -->
-            <div class="heart-container" id="heart-container" style="display: none;">
-    <div class="heart-glow"></div>
-    
-    <!-- Các ngôi sao xung quanh -->
-    <div class="heart-star">★</div>
-    <div class="heart-star">★</div>
-    <div class="heart-star">★</div>
-    <div class="heart-star">★</div>
-    <div class="heart-star">★</div>
-    <div class="heart-star">★</div>
-    <div class="heart-star">★</div>
-    <div class="heart-star">★</div>
-    
-    <!-- Trái tim -->
-    <div class="heart" onclick="heartClick(this)">
-        <div class="heart-img-container">
-    <img id="user-image" 
-         src="assets/anh.jpg" 
-         alt="Kỷ niệm"
-         onload="processHeartImage()"> </div>
+            <!-- Trái tim -->
+            <div class="heart responsive-heart-inner" onclick="heartClick(this)">
+                <div class="heart-image">
+                    <img id="user-image" 
+                         src="assets/anh.jpg" 
+                         alt="Kỷ niệm"
+                         onload="processHeartImage()">
+                </div>
+            </div>
         </div>
+        
+        <!-- Phần 2 của nội dung -->
+        <p id="message-part2" class="responsive-text"></p>
+        
+        <!-- Phần chữ ký -->
+        <p class="signature responsive-signature" id="signature-text">-- Yêu em mãi mãi --</p>
     </div>
 </div>
-            
-            <!-- Phần 2 của nội dung -->
-            <p id="message-part2"></p>
-            
-            <!-- Phần chữ ký -->
-            <p class="signature" id="signature-text">-- Yêu em mãi mãi --</p>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
